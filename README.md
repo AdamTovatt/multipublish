@@ -1,11 +1,8 @@
 # MultiPublish
 
 [![Tests](https://github.com/AdamTovatt/multipublish/actions/workflows/dotnet.yml/badge.svg)](https://github.com/AdamTovatt/multipublish/actions/workflows/dotnet.yml)
-
 [![NuGet Version](https://img.shields.io/nuget/v/MultiPublish.svg)](https://www.nuget.org/packages/MultiPublish/)
-
 [![NuGet Downloads](https://img.shields.io/nuget/dt/MultiPublish.svg)](https://www.nuget.org/packages/MultiPublish/)
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 A dotnet global tool that extends `dotnet publish` to support multiple runtime identifiers and self-contained options in a single command, with optional zip packaging of outputs.
