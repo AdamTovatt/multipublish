@@ -5,7 +5,11 @@
 [![NuGet Downloads](https://img.shields.io/nuget/dt/MultiPublish.svg)](https://www.nuget.org/packages/MultiPublish/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-A dotnet global tool that extends `dotnet publish` to support multiple runtime identifiers and self-contained options in a single command, with optional zip packaging of outputs.
+Tired of running dotnet publish over and over again with different parameters to publish for all the different runtimes and options you want to support?
+
+What if you could just use dotnet publish but with parameters that accepted array-like values. Well, now you can.
+
+`MultiPublish` is a dotnet tool that extends `dotnet publish` to support multiple runtime identifiers and self-contained options in a single command, with optional zip packaging of outputs.
 
 ## What It Does
 
@@ -17,18 +21,10 @@ A dotnet global tool that extends `dotnet publish` to support multiple runtime i
 ## Installation
 
 ```bash
-dotnet tool install -g MultiPublish
+dotnet tool install -g multipublish
 ```
 
 ## Usage
-
-### Basic Usage
-
-Replace `dotnet publish` with `dotnet multipublish`:
-
-```bash
-dotnet multipublish -c Release -r win-x64
-```
 
 ### Multiple Runtimes
 
@@ -51,6 +47,22 @@ This will create 4 publish outputs:
 - `win-x64` framework-dependent
 - `win-x86` self-contained
 - `win-x86` framework-dependent
+
+### Basic Usage
+
+The goal of `multipublish` is to be able to serve as a complete replacement for `publish`. This means that if you want to, you can still use `multipublish` for scenarios where it isn't actually needed.
+
+For example:
+
+```bash
+dotnet publish -c Release -r win-x64
+```
+
+Can be replaced with:
+
+```bash
+dotnet multipublish -c Release -r win-x64
+```
 
 ### Disable Zip Creation
 
