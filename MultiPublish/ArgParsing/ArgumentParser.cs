@@ -47,6 +47,7 @@ namespace MultiPublish.ArgParsing
                             }
                         }
                     }
+
                     continue;
                 }
 
@@ -64,6 +65,7 @@ namespace MultiPublish.ArgParsing
                                 selfContainedOptions.Add(parsed);
                             }
                         }
+
                         index += 1;
                     }
                     else if (index + 1 < args.Length && !IsNextOption(args[index + 1]))
@@ -85,6 +87,7 @@ namespace MultiPublish.ArgParsing
                         selfContainedOptions.Add(true);
                         index += 1;
                     }
+
                     continue;
                 }
 
@@ -109,6 +112,7 @@ namespace MultiPublish.ArgParsing
             {
                 return false;
             }
+
             return token.StartsWith("-");
         }
 
@@ -133,6 +137,7 @@ namespace MultiPublish.ArgParsing
                         results.Add(item);
                     }
                 }
+
                 return results;
             }
 
@@ -147,6 +152,7 @@ namespace MultiPublish.ArgParsing
             {
                 return token.Substring(start, end - start + 1);
             }
+
             return token;
         }
 
