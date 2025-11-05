@@ -1,4 +1,4 @@
-using MultiPublish.Publish;
+using MultiPublish.Publishing;
 using System.IO.Compression;
 
 namespace MultiPublish.Tests

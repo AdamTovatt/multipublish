@@ -1,4 +1,4 @@
-using MultiPublish.Publish;
+using MultiPublish.Publishing;
 
 namespace MultiPublish.Abstractions
 {

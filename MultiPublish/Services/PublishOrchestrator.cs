@@ -1,6 +1,6 @@
 using MultiPublish.Abstractions;
 using MultiPublish.ArgParsing;
-using MultiPublish.Publish;
+using MultiPublish.Publishing;
 
 namespace MultiPublish.Services
 {

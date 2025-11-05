@@ -1,5 +1,5 @@
 using MultiPublish.ArgParsing;
-using MultiPublish.Publish;
+using MultiPublish.Publishing;
 
 namespace MultiPublish.Tests
 {

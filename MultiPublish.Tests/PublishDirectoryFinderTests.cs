@@ -1,4 +1,4 @@
-using MultiPublish.Publish;
+using MultiPublish.Publishing;
 using MultiPublish.Services;
 
 namespace MultiPublish.Tests
