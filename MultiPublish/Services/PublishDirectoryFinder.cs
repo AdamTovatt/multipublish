@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using MultiPublish.Abstractions;
 using MultiPublish.Publish;
 
@@ -12,13 +14,41 @@ namespace MultiPublish.Services
 
             string? frameworkValue = this.GetOptionValue(publishArgs, "-f", "--framework");
 
-            string binRoot = Path.Combine(workingDirectoryPath, "bin");
-            if (!Directory.Exists(binRoot))
+            string searchRoot = this.GetSearchRoot(publishArgs, workingDirectoryPath);
+            
+            List<string> binRoots = new List<string>();
+            string primaryBinRoot = Path.Combine(searchRoot, "bin");
+            if (Directory.Exists(primaryBinRoot))
+            {
+                binRoots.Add(primaryBinRoot);
+            }
+            
+            if (binRoots.Count == 0)
+            {
+                string workingBinRoot = Path.Combine(workingDirectoryPath, "bin");
+                if (Directory.Exists(workingBinRoot))
+                {
+                    binRoots.Add(workingBinRoot);
+                }
+                else if (Directory.Exists(workingDirectoryPath))
+                {
+                    foreach (string subDir in Directory.EnumerateDirectories(workingDirectoryPath))
+                    {
+                        string subBinRoot = Path.Combine(subDir, "bin");
+                        if (Directory.Exists(subBinRoot))
+                        {
+                            binRoots.Add(subBinRoot);
+                        }
+                    }
+                }
+            }
+            
+            if (binRoots.Count == 0)
             {
                 return null;
             }
 
-            IEnumerable<string> candidates = Directory.EnumerateDirectories(binRoot, "*", SearchOption.AllDirectories);
+            IEnumerable<string> candidates = binRoots.SelectMany(binRoot => Directory.EnumerateDirectories(binRoot, "*", SearchOption.AllDirectories));
             List<(string Path, DateTime Modified)> publishDirs = new List<(string, DateTime)>();
             foreach (string dir in candidates)
             {
@@ -51,6 +81,43 @@ namespace MultiPublish.Services
 
             publishDirs.Sort((a, b) => b.Modified.CompareTo(a.Modified));
             return publishDirs[0].Path;
+        }
+
+        private string GetSearchRoot(IReadOnlyList<string> publishArgs, string workingDirectoryPath)
+        {
+            string? projectPath = null;
+            for (int i = 0; i < publishArgs.Count; i += 1)
+            {
+                string current = publishArgs[i];
+                if (current.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase) ||
+                    current.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
+                {
+                    projectPath = current;
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(projectPath))
+            {
+                string absoluteProjectPath = Path.IsPathRooted(projectPath!)
+                    ? projectPath!
+                    : Path.Combine(workingDirectoryPath, projectPath!);
+
+                if (File.Exists(absoluteProjectPath))
+                {
+                    string? projectDir = Path.GetDirectoryName(absoluteProjectPath);
+                    if (!string.IsNullOrEmpty(projectDir))
+                    {
+                        return projectDir;
+                    }
+                }
+                else if (Directory.Exists(absoluteProjectPath))
+                {
+                    return absoluteProjectPath;
+                }
+            }
+
+            return workingDirectoryPath;
         }
 
         private string? GetOptionValue(IReadOnlyList<string> args, string shortName, string longName)

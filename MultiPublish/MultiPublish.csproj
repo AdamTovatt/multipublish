@@ -8,8 +8,11 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>multipublish</ToolCommandName>
     <PackageId>MultiPublish</PackageId>
-    <Authors>MultiPublish</Authors>
+    <Authors>Adam Tovatt</Authors>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>MultiPublish</Title>
+    <VersionPrefix>0.1.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>

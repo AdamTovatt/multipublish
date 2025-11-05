@@ -17,6 +17,7 @@ namespace MultiPublish
                 new OutputDirectoryDiscoverer(),
                 new PublishDirectoryFinder(),
                 new BinDirectoryResolver(),
+                new PublishOutputParser(),
                 new DotnetPublishExecutor(new DotnetCliRunner())
             );
 

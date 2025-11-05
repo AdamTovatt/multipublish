@@ -11,6 +11,7 @@ namespace MultiPublish.Services
         private readonly IOutputDirectoryDiscoverer outputDirectoryDiscoverer;
         private readonly IPublishDirectoryFinder publishDirectoryFinder;
         private readonly IBinDirectoryResolver binDirectoryResolver;
+        private readonly IPublishOutputParser publishOutputParser;
         private readonly DotnetPublishExecutor executor;
 
         public PublishOrchestrator(
@@ -19,6 +20,7 @@ namespace MultiPublish.Services
             IOutputDirectoryDiscoverer outputDirectoryDiscoverer,
             IPublishDirectoryFinder publishDirectoryFinder,
             IBinDirectoryResolver binDirectoryResolver,
+            IPublishOutputParser publishOutputParser,
             DotnetPublishExecutor executor)
         {
             this.projectPathResolver = projectPathResolver;
@@ -26,6 +28,7 @@ namespace MultiPublish.Services
             this.outputDirectoryDiscoverer = outputDirectoryDiscoverer;
             this.publishDirectoryFinder = publishDirectoryFinder;
             this.binDirectoryResolver = binDirectoryResolver;
+            this.publishOutputParser = publishOutputParser;
             this.executor = executor;
         }
 
@@ -66,6 +69,11 @@ namespace MultiPublish.Services
                 string? outputDir = this.outputDirectoryDiscoverer.TryGetOutputDirectoryFromArgs(publishArgs);
                 if (string.IsNullOrEmpty(outputDir))
                 {
+                    outputDir = this.publishOutputParser.ExtractPublishDirectory(result);
+                }
+
+                if (string.IsNullOrEmpty(outputDir))
+                {
                     outputDir = this.publishDirectoryFinder.FindPublishDirectory(configuration, publishArgs, Directory.GetCurrentDirectory());
                 }
 
@@ -89,6 +97,7 @@ namespace MultiPublish.Services
             {
                 result.Add(a);
             }
+
             return result;
         }
     }
