@@ -31,7 +31,7 @@ dotnet tool install -g multipublish
 Use array syntax to publish for multiple runtimes:
 
 ```bash
-dotnet multipublish -c Release -r [win-x64, win-x86, linux-arm64]
+multipublish -c Release -r [win-x64, win-x86, linux-arm64]
 ```
 
 ### Multiple Runtimes and Self-Contained Options
@@ -39,7 +39,7 @@ dotnet multipublish -c Release -r [win-x64, win-x86, linux-arm64]
 Publish for multiple runtimes with both self-contained and framework-dependent outputs:
 
 ```bash
-dotnet multipublish -c Release -r [win-x64, win-x86] --self-contained [true, false] /p:PublishSingleFile=true
+multipublish -c Release -r [win-x64, win-x86] --self-contained [true, false] /p:PublishSingleFile=true
 ```
 
 This will create 4 publish outputs:
@@ -50,7 +50,7 @@ This will create 4 publish outputs:
 
 ### Basic Usage
 
-The goal of `multipublish` is to be able to serve as a complete replacement for `publish`. This means that if you want to, you can still use `multipublish` for scenarios where it isn't actually needed.
+The goal of `multipublish` is to be able to serve as a complete replacement for `dotnet publish`. This means that if you want to, you can still use `multipublish` for scenarios where it isn't actually needed.
 
 For example:
 
@@ -61,7 +61,7 @@ dotnet publish -c Release -r win-x64
 Can be replaced with:
 
 ```bash
-dotnet multipublish -c Release -r win-x64
+multipublish -c Release -r win-x64
 ```
 
 ### Disable Zip Creation
@@ -69,7 +69,7 @@ dotnet multipublish -c Release -r win-x64
 By default, zip files are created in `bin/MultiPublish/`. To disable:
 
 ```bash
-dotnet multipublish -c Release -r [win-x64, win-x86] --no-zip
+multipublish -c Release -r [win-x64, win-x86] --no-zip
 ```
 
 ### Array Syntax
@@ -81,7 +81,7 @@ Arrays can be specified with or without spaces:
 --self-contained [true, false]
 ```
 
-All other `dotnet publish` arguments are supported and passed through unchanged.
+All other `dotnet publish` arguments are supported and passed through unchanged (hopefully, I haven't tested them all).
 
 ## Zip Output
 
